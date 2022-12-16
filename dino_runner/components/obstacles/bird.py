@@ -4,7 +4,7 @@ from dino_runner.components.obstacles.obstacle import Obstacle
 from dino_runner.utils.constants import BIRD
 
 class Bird(Obstacle):
-    BIRD_HEIGHTS = [260, 220, 170] #260 para que pueda pasar agachado
+    BIRD_HEIGHTS = [260, 220, 170]
 
     def __init__(self):
         self.type = 0

@@ -1,15 +1,14 @@
 import pygame
 import random
 
+from dino_runner.utils.constants import SHIELD_TYPE
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
-from dino_runner.components.element import Element
 
 class ObstacleManager:
 
     def __init__(self):
         self.obstacles = []
-        self.element = Element()
 
     def generate_obstacle(self, obstacle_type):
         if obstacle_type == 0:
@@ -31,11 +30,13 @@ class ObstacleManager:
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed, self.obstacles)
             if game.player.dino_rect.colliderect(obstacle.rect):
-                game.death_count += 1
-                #self.element.death_count += 1
-                pygame.time.delay(1000)
-                game.playing = False
-                #break
+                if game.player.type != SHIELD_TYPE:
+                    game.death_count.count += 1
+                    pygame.time.delay(1000)
+                    game.playing = False
+                    #break no sé por qué es necesario xd
+                else:
+                    self.obstacles.pop()
 
     def draw(self, screen):
         for obstacle in self.obstacles:
