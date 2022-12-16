@@ -1,6 +1,6 @@
 import pygame
 
-from dino_runner.utils.constants import FONT_STYLE
+from dino_runner.utils.constants import FONT_STYLE_2
 
 class Counter:
 
@@ -11,7 +11,7 @@ class Counter:
             self.count += 1
 
     def draw(self, screen):
-        font = pygame.font.Font(FONT_STYLE, 30)
+        font = pygame.font.Font(FONT_STYLE_2, 30)
         text = font.render(f'Score: {self.count}', True, (0, 0, 0))
         text_rect = text.get_rect()
         text_rect.center = (1000, 50)

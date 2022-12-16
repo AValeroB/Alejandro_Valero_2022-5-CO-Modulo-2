@@ -3,10 +3,12 @@ import pygame
 from pygame.sprite import Sprite
 
 from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING, DEFAULT_TYPE, SHIELD_TYPE, DUCKING_SHIELD, JUMPING_SHIELD, RUNNING_SHIELD
+from dino_runner.utils.constants import DEAD,                                    HAMMER_TYPE, DUCKING_HAMMER, JUMPING_HAMMER, RUNNING_HAMMER
 
-DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD}
-JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD}
-RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD}
+DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE: DUCKING_HAMMER}
+JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD, HAMMER_TYPE: JUMPING_HAMMER}
+RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD, HAMMER_TYPE: RUNNING_HAMMER}
+DEAD_IMG = {DEFAULT_TYPE: DEAD}
 
 class Dinosaur(Sprite):
     X_POS = 80
@@ -27,6 +29,7 @@ class Dinosaur(Sprite):
         self.jump_speed = self.JUMP_SPEED
         self.has_power_up = False
         self.power_time_up = 0
+        self.dino_dead = False
 
     def update(self, user_input):
         if self.dino_run:
@@ -35,6 +38,8 @@ class Dinosaur(Sprite):
             self.jump()
         elif self.dino_duck:
             self.duck()
+        elif self.dino_dead:
+            self.dead()
 
         if user_input[pygame.K_UP] and not self.dino_jump:
             self.dino_jump = True
@@ -48,6 +53,11 @@ class Dinosaur(Sprite):
             self.dino_jump = False
             self.dino_duck = False
             self.dino_run = True
+        elif not self.dino_jump:
+            self.dino_jump = False
+            self.dino_duck = False
+            self.dino_run = False
+            self.dino_dead = True
 
         if self.step_index >= 10:
             self.step_index = 0
@@ -76,6 +86,9 @@ class Dinosaur(Sprite):
         self.dino_rect.x = self.X_POS
         self.dino_rect.y = self.Y_POS_DUCK
         self.step_index += 1
+
+    def dead(self):
+        self.image = DEAD_IMG[self.type]
 
     def draw(self, screen):
         screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))

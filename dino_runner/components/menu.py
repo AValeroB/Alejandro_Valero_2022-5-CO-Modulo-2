@@ -23,7 +23,7 @@ class Menu:
                 game.run()
 
     def reset_screen_color(self, screen):
-        screen.fill((255, 255, 255))
+        screen.fill((200, 200, 200))
 
     def draw(self, screen, message, x = HALF_SCREEN_WIDTH, y = HALF_SCREEN_HEIGHT):
         text = self.font.render(message, True, (0, 0, 0))
